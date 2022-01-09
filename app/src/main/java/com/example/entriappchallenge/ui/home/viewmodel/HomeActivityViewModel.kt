@@ -31,10 +31,6 @@ class HomeActivityViewModel(): ViewModel() {
             Log.d("isOnline = ", "false")
             fetchMovies(dbHelper)
         }
-        /*viewModelScope.launch(Dispatchers.IO) {
-            val response = repository.getMovies()
-            fetchMovies(dbHelper)
-        }*/
     }
 
     private fun fetchMovies(dbHelper: DatabaseHelper) {
