@@ -6,39 +6,43 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
 import com.example.entriappchallenge.data.local.room.DatabaseHelper
 import com.example.entriappchallenge.data.local.room.entity.MovieEntity
 import com.example.entriappchallenge.data.model.MoviesModel
 import com.example.entriappchallenge.data.repository.HomeActivityRepository
+import com.example.entriappchallenge.ui.home.paging.MoviePagingSource
 import com.example.entriappchallenge.utils.isOnline
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class HomeActivityViewModel(): ViewModel() {
+class HomeActivityViewModel(private val dbHelper: DatabaseHelper, private var isOnline: Boolean): ViewModel() {
     private var movies : MutableLiveData<List<MovieEntity>> = MutableLiveData()
     private val repository: HomeActivityRepository = HomeActivityRepository()
+
+    val moviesList = Pager(
+        config = PagingConfig(pageSize = 1),
+        pagingSourceFactory = {
+            MoviePagingSource(repository, viewModelScope, dbHelper, isOnline)
+        }).flow.cachedIn(viewModelScope)
 
     fun getRecyclerListObserver(): MutableLiveData<List<MovieEntity>> {
         return movies
     }
 
-    fun makeApiCall(context: Context, dbHelper: DatabaseHelper) {
-        if (isOnline(context)) {
-            Log.d("isOnline = ", "true")
-            fetchMovies(dbHelper)
-        } else {
-            Log.d("isOnline = ", "false")
-            fetchMovies(dbHelper)
-        }
+    fun makeApiCall() {
+        fetchMovies()
     }
 
-    private fun fetchMovies(dbHelper: DatabaseHelper) {
+    fun fetchMovies() {
         viewModelScope.launch {
             try {
                 val moviesFromDb = dbHelper.getMovies()
                 if (moviesFromDb.isEmpty()) {
-                    val response  = repository.getMovies()
+                    val response  = repository.getMovies(1)
                     var moviesFromApi = ArrayList<MoviesModel.ResultModel>()
                     if (response.results != null) {
                         moviesFromApi = response.results
@@ -56,7 +60,6 @@ class HomeActivityViewModel(): ViewModel() {
                         moviesToInsertInDB.add(movie)
                     }
                     dbHelper.insertAll(moviesToInsertInDB)
-                    Log.d("data", moviesToInsertInDB[0].toString())
                     movies.postValue(moviesToInsertInDB)
                 } else {
                     movies.postValue(moviesFromDb)
@@ -70,5 +73,4 @@ class HomeActivityViewModel(): ViewModel() {
     fun getMovies(): LiveData<List<MovieEntity>> {
         return movies
     }
-
 }
