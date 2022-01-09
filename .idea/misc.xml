@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/HP/AndroidStudioProjects/EntriAppChallenge/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.20277777777777778" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/EntriAppChallenge/app/src/main/res/layout/activity_home.xml" value="0.1603336422613531" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/EntriAppChallenge/app/src/main/res/layout/activity_movie_details.xml" value="0.2585949177877429" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/EntriAppChallenge/app/src/main/res/layout/layout_list_item_movie.xml" value="0.2" />
