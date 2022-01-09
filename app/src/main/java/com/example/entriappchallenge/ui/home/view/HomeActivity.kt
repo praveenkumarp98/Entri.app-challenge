@@ -2,10 +2,8 @@ package com.example.entriappchallenge.ui.home.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.entriappchallenge.data.local.room.DatabaseBuilder
 import com.example.entriappchallenge.data.local.room.DatabaseHelperImpl
@@ -14,7 +12,6 @@ import com.example.entriappchallenge.databinding.ActivityHomeBinding
 import com.example.entriappchallenge.ui.home.adapter.RecyclerViewAdapter
 import com.example.entriappchallenge.ui.home.viewmodel.HomeActivityViewModel
 import com.example.entriappchallenge.utils.Constants
-import com.example.entriappchallenge.utils.isOnline
 
 class HomeActivity : AppCompatActivity(), RecyclerViewAdapter.ListItemClick {
 

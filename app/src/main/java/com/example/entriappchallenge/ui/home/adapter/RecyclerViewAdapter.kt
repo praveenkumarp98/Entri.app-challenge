@@ -30,7 +30,7 @@ class RecyclerViewAdapter(private var itemClick: ListItemClick) : RecyclerView.A
         holder.binding.tvName.text = movie.title
 
         val posterPath = movie.posterPath
-        val url =  Constants().imageBaseUrl+"$posterPath"
+        val url =  Constants().imageBaseUrl+posterPath
         Log.d("path = ", url)
         Picasso.get()
             .load(url)
