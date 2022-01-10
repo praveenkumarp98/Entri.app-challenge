@@ -1,7 +1,5 @@
 package com.example.entriappchallenge.ui.home.viewmodel
 
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,13 +7,11 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.example.entriappchallenge.data.local.room.DatabaseHelper
+import com.example.entriappchallenge.data.local.room.dbhelper.DatabaseHelper
 import com.example.entriappchallenge.data.local.room.entity.MovieEntity
 import com.example.entriappchallenge.data.model.MoviesModel
 import com.example.entriappchallenge.data.repository.HomeActivityRepository
 import com.example.entriappchallenge.ui.home.paging.MoviePagingSource
-import com.example.entriappchallenge.utils.isOnline
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 

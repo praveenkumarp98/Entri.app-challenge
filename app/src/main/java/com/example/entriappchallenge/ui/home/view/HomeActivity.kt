@@ -6,9 +6,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.RecyclerView
-import com.example.entriappchallenge.data.local.room.DatabaseBuilder
-import com.example.entriappchallenge.data.local.room.DatabaseHelperImpl
+import com.example.entriappchallenge.data.local.room.MoviesRoomDataBase
+import com.example.entriappchallenge.data.local.room.dbhelper.DatabaseHelper
+import com.example.entriappchallenge.data.local.room.dbhelper.DatabaseHelperImpl
 import com.example.entriappchallenge.data.local.room.entity.MovieEntity
 import com.example.entriappchallenge.data.model.MoviesModel
 import com.example.entriappchallenge.databinding.ActivityHomeBinding
@@ -28,6 +28,7 @@ class HomeActivity : AppCompatActivity(), ViewPagerAdapter.ListItemClick, Recycl
     private lateinit var viewModel: HomeActivityViewModel
     lateinit var viewPagerAdapter: ViewPagerAdapter
     private var isOnline = true
+    private lateinit var dbHelper : DatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +38,7 @@ class HomeActivity : AppCompatActivity(), ViewPagerAdapter.ListItemClick, Recycl
         isOnline = isOnline(applicationContext)
         viewPagerAdapter = ViewPagerAdapter(this)
         recyclerViewAdapter = RecyclerViewAdapter(this)
+        dbHelper = DatabaseHelperImpl(MoviesRoomDataBase.getInstance(applicationContext))
 
         if (isOnline) {
             binding.recyclerview.adapter = viewPagerAdapter
@@ -50,7 +52,6 @@ class HomeActivity : AppCompatActivity(), ViewPagerAdapter.ListItemClick, Recycl
     }
 
     private fun setupViewModel() {
-        val dbHelper = DatabaseHelperImpl(DatabaseBuilder.getInstance(applicationContext))
         val factory = HomeViewModelFactory(dbHelper, isOnline)
         viewModel = ViewModelProvider(this, factory)[HomeActivityViewModel::class.java]
         viewModel.makeApiCall()
@@ -65,7 +66,6 @@ class HomeActivity : AppCompatActivity(), ViewPagerAdapter.ListItemClick, Recycl
     }
 
     private fun initViewModel() {
-        val dbHelper = DatabaseHelperImpl(DatabaseBuilder.getInstance(applicationContext))
         val factory = HomeViewModelFactory(dbHelper, isOnline)
         viewModel = ViewModelProvider(this, factory)[HomeActivityViewModel::class.java]
         viewModel.getRecyclerListObserver().observe(this, {

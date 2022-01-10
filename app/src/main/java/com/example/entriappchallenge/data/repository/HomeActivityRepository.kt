@@ -1,8 +1,9 @@
 package com.example.entriappchallenge.data.repository
 
+import androidx.lifecycle.LiveData
 import com.example.entriappchallenge.data.api.ApiService
 import com.example.entriappchallenge.data.api.Utilities
-import com.example.entriappchallenge.data.local.room.DatabaseHelper
+import com.example.entriappchallenge.data.local.room.dbhelper.DatabaseHelper
 import com.example.entriappchallenge.data.local.room.entity.MovieEntity
 import com.example.entriappchallenge.data.model.MoviesModel
 import com.example.entriappchallenge.utils.Constants

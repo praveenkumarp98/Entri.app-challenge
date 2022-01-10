@@ -2,7 +2,6 @@ package com.example.entriappchallenge.ui.home.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.entriappchallenge.data.local.room.DatabaseHelper
 import com.example.entriappchallenge.data.local.room.entity.MovieEntity
 import com.example.entriappchallenge.data.model.MoviesModel
 import com.example.entriappchallenge.data.repository.HomeActivityRepository
