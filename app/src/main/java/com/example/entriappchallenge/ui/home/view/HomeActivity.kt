@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import com.example.entriappchallenge.data.local.room.DatabaseBuilder
 import com.example.entriappchallenge.data.local.room.DatabaseHelperImpl
 import com.example.entriappchallenge.data.local.room.entity.MovieEntity
@@ -84,6 +85,18 @@ class HomeActivity : AppCompatActivity(), ViewPagerAdapter.ListItemClick, Recycl
             } else {
                 binding.recyclerview.visibility = View.VISIBLE
                 renderList(it)
+                /*binding.recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                        super.onScrollStateChanged(recyclerView, newState)
+                        if (!recyclerView.canScrollVertically(1)) {
+                            if (isOnline) {
+                                binding.recyclerview.adapter = viewPagerAdapter
+                                setupViewModel()
+                                setupList()
+                            }
+                        }
+                    }
+                })*/
             }
         })
     }

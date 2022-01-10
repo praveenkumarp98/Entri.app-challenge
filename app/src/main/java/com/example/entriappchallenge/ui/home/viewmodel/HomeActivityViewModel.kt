@@ -21,12 +21,12 @@ import kotlinx.coroutines.launch
 
 class HomeActivityViewModel(private val dbHelper: DatabaseHelper, private var isOnline: Boolean): ViewModel() {
     private var movies : MutableLiveData<List<MovieEntity>> = MutableLiveData()
-    private val repository: HomeActivityRepository = HomeActivityRepository()
+    private val repository: HomeActivityRepository = HomeActivityRepository(dbHelper)
 
     val moviesList = Pager(
         config = PagingConfig(pageSize = 1),
         pagingSourceFactory = {
-            MoviePagingSource(repository, viewModelScope, dbHelper, isOnline)
+            MoviePagingSource(repository, viewModelScope)
         }).flow.cachedIn(viewModelScope)
 
     fun getRecyclerListObserver(): MutableLiveData<List<MovieEntity>> {
@@ -40,7 +40,8 @@ class HomeActivityViewModel(private val dbHelper: DatabaseHelper, private var is
     fun fetchMovies() {
         viewModelScope.launch {
             try {
-                val moviesFromDb = dbHelper.getMovies()
+                //val moviesFromDb = dbHelper.getMovies()
+                val moviesFromDb = repository.getMoviesFromDb()
                 if (moviesFromDb.isEmpty()) {
                     val response  = repository.getMovies(1)
                     var moviesFromApi = ArrayList<MoviesModel.ResultModel>()
@@ -59,7 +60,8 @@ class HomeActivityViewModel(private val dbHelper: DatabaseHelper, private var is
                         )
                         moviesToInsertInDB.add(movie)
                     }
-                    dbHelper.insertAll(moviesToInsertInDB)
+                    //dbHelper.insertAll(moviesToInsertInDB)
+                    repository.addMoviesToDb(moviesToInsertInDB)
                     movies.postValue(moviesToInsertInDB)
                 } else {
                     movies.postValue(moviesFromDb)

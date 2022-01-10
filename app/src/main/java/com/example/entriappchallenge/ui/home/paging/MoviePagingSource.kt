@@ -12,9 +12,7 @@ import java.lang.Exception
 
 class MoviePagingSource(
     private val repository: HomeActivityRepository,
-    private val coroutineScope: CoroutineScope,
-    private val dbHelper: DatabaseHelper,
-    private var isOnline: Boolean
+    private val coroutineScope: CoroutineScope
 ) : PagingSource<Int, MoviesModel.ResultModel>() {
 
     override fun getRefreshKey(state: PagingState<Int, MoviesModel.ResultModel>): Int? = null
@@ -53,7 +51,8 @@ class MoviePagingSource(
                         moviesToInsertInDB.add(movie)
                     }
                 }
-                dbHelper.insertAll(moviesToInsertInDB)
+                //dbHelper.insertAll(moviesToInsertInDB)
+                repository.addMoviesToDb(moviesToInsertInDB)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
